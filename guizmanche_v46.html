@@ -1,0 +1,295 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Guizmanche — Parcours</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;background:#101820;color:#f1f5f5}*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}header{padding:18px 16px;background:#192635;border-bottom:1px solid #3a4e60}.wrap{max-width:950px;margin:auto}main{padding:12px}.logo{font-size:27px;font-weight:900;letter-spacing:-1px}.logo span{color:#79e2af}.muted{color:#b6c5d1;font-size:13px}.card{border:1px solid #405267;background:#1b2938;border-radius:16px;padding:15px;margin:12px 0}.steps{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}.step{min-width:145px;flex:1;background:#26394b;color:white;border:1px solid #536a80;border-radius:12px;padding:12px;text-align:left}.step.current{border:2px solid #7fe1b2;background:#22533f}.step.locked{opacity:.48}.step strong{display:block;font-size:14px}.step small{font-size:11px;color:#cad4dd}h2{font-size:22px;margin:8px 0}h3{margin:8px 0}.btn{background:#31465c;border:1px solid #60778c;border-radius:10px;padding:10px 13px;color:white}.primary{background:#23815d;border-color:#7de5b1}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pill{font-size:12px;border-radius:20px;background:#30465a;padding:6px 10px}.progress{height:9px;border-radius:10px;background:#34485a;overflow:hidden;margin:12px 0}.progress>div{height:100%;background:#6de0aa;transition:width .2s}.board-scroll{overflow-x:auto;overscroll-behavior-x:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;border-radius:12px;background:#101820;padding:10px 0;scrollbar-color:#8cbaaa #243849}.board-scroll svg{display:block;max-width:none;user-select:none;-webkit-user-select:none}.board-scroll svg [data-string]{cursor:pointer;touch-action:pan-y}.feedback{background:#2d4255;border-radius:10px;padding:12px;min-height:45px;margin-top:12px}.feedback.ok{background:#205d48}.feedback.no{background:#683e47}.answers{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.answers button{background:#334a60;border:1px solid #688097;color:white;padding:10px 13px;border-radius:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#2b4052;text-align:center;padding:12px 4px;border-radius:10px}.stat strong{display:block;color:#79e2af;font-size:22px}.stat small{font-size:11px}.lesson{background:#253d4c;border-left:4px solid #79e2af;border-radius:8px;padding:13px;line-height:1.5}.hidden{display:none!important}footer{text-align:center;color:#9caebd;font-size:12px;padding:22px}select{background:#2a3e50;color:white;padding:8px;border:1px solid #60778c;border-radius:9px}@media(max-width:500px){.card{padding:12px}.step{min-width:130px}.logo{font-size:24px}}
+
+.celebrate{position:fixed;inset:0;z-index:100;background:rgba(5,13,23,.91);display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}.celebrate-card{position:relative;text-align:center;background:linear-gradient(145deg,#244f46,#192b40);border:2px solid #7ceab5;border-radius:26px;padding:32px 24px;width:min(420px,100%);box-shadow:0 0 70px #50e4a044;animation:pop .65s cubic-bezier(.2,1.5,.5,1) both}.celebrate-star{font-size:70px;animation:bounce 1s ease-in-out infinite alternate}.celebrate h2{font-size:30px;color:#9ff5c8}.celebrate .btn{font-size:17px;padding:14px 24px;margin-top:16px}.confetti{position:absolute;top:-10%;width:9px;height:17px;border-radius:2px;animation:fall 2.7s linear infinite;pointer-events:none}@keyframes fall{to{transform:translateY(120vh) rotate(700deg)}}@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}@keyframes bounce{to{transform:translateY(-10px) rotate(8deg)}}@media(prefers-reduced-motion:reduce){.celebrate-card,.celebrate-star,.confetti{animation:none}}
+
+/* Orientation-aware layout: no forced screen lock, keep gameplay state intact. */
+.orientation-note{font-size:12px;color:#d2e1ea;background:#263e4d;border:1px solid #496779;border-radius:10px;padding:10px;margin:10px 0}
+@media(orientation:landscape) and (max-height:600px){header{padding:6px 12px}.logo{font-size:20px}header .muted{display:none}main{padding:5px 10px}.card{padding:9px;margin:7px 0}.board-scroll{padding:3px 0}.row{gap:5px}.btn{padding:7px 9px}.steps{padding-bottom:3px}.orientation-note{margin:5px 0;padding:7px}.card h2{font-size:19px}}
+@media(orientation:portrait) and (max-width:600px){.board-scroll{width:100%}.row .btn{min-height:40px}}
+.octave-demo{margin:12px 0;padding:10px;background:#172735;border:1px solid #476074;border-radius:12px;overflow:hidden}.octave-demo svg{display:block;width:100%;max-width:460px;height:auto;margin:8px auto}.octave-demo strong{display:block;text-align:center;font-size:14px}.full-map .map-scroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}.full-map .map-scroll svg{width:710px;max-width:none;margin:0}.route-steps p{padding:7px 0;border-bottom:1px solid #496073;margin:0} .triad-token{touch-action:none;cursor:grab;border:2px solid #8abcf2!important;min-width:125px}.triad-ghost{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);background:#91e3bd;color:#142b2b;border-radius:25px;padding:12px 20px;font-weight:bold;box-shadow:0 5px 20px #0009}
+.solo-scene{height:175px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:4px auto 14px;background:radial-gradient(ellipse at 50% 72%,#487e8b70,transparent 68%);border-radius:20px}
+.solo-rocker{position:relative;font-size:86px;line-height:1;display:inline-block;animation:soloRock .33s ease-in-out infinite alternate;transform-origin:50% 80%}
+.solo-guitar{position:absolute;font-size:72px;left:48px;top:28px;display:inline-block;transform:rotate(-34deg);animation:soloGuitar .16s ease-in-out infinite alternate}
+.solo-notes{position:absolute;top:9px;left:15%;font-size:32px;color:#ffe58d;animation:soloNotes 1.25s ease-in-out infinite alternate}
+.solo-stage{position:absolute;bottom:0;left:0;width:100%;font-size:24px;letter-spacing:18px;color:#8ae7c2;animation:soloLights .6s ease-in-out infinite alternate}
+@keyframes soloRock{from{transform:rotate(-9deg) translateY(4px)}to{transform:rotate(10deg) translateY(-5px)}}
+@keyframes soloGuitar{from{transform:rotate(-40deg)}to{transform:rotate(-26deg)}}
+@keyframes soloNotes{from{transform:translate(0,14px);opacity:.4}to{transform:translate(36px,-10px);opacity:1}}
+@keyframes soloLights{from{opacity:.3}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.solo-rocker,.solo-guitar,.solo-notes,.solo-stage{animation:none}}
+</style></head><body><header><div class="wrap"><div class="logo">GUIZ<span>MANCHE</span> 🎸</div><div class="muted">Des cordes à vide aux triades — Un parcours progressif · Des défis à rejouer sans limite.</div></div></header><main class="wrap">
+<section class="card"><div class="row" style="justify-content:space-between"><strong>Ton parcours</strong><span class="pill" id="overall">0 / 9 étapes</span></div><div class="progress"><div id="overallbar" style="width:0%"></div></div><div class="steps" id="steps"></div><div class="muted">Le manche et le premier exercice s'affichent immédiatement. Étape 1 : 10 questions. Étape 2 : trois manches de 10 questions (naturelles, altérées, mélangées). Chaque manche est rejouable. Ensuite, les niveaux avancés se débloquent.</div></section>
+<section class="card" id="game2Box"><h2>🎯 Jeu 2 — Les notes sur le manche</h2><p class="muted">30 questions en 3 manches de 10. Termine le jeu 1 avec au moins 8/10 pour débloquer le premier manche. Chaque manche réussi débloque le suivant.</p><div id="game2Buttons" class="row"></div><p class="muted" id="game2Status"></p></section>
+<section class="card" id="lessonBox"><div class="pill" id="tag">Étape 1</div><h2 id="title"></h2><div class="lesson" id="lesson"></div><div class="orientation-note">🎸 <b>Comment lire le manche :</b> les cases grisées sont inactives pour cet exercice. Elles se débloquent au fil des étapes. Tu peux jouer en <b>portrait</b> ou tourner ton téléphone en <b>paysage</b> pour voir davantage de cases. Glisse le manche horizontalement pour te déplacer.</div><div class="row" style="margin-top:12px"><button class="btn primary" id="start">J'ai compris · Jouer →</button></div></section>
+<section class="card hidden" id="playBox"><div class="row" style="justify-content:space-between"><span class="pill" id="levelTag">Étape 1</span><span class="pill" id="session">0 / 10 défis</span><span class="pill" id="points">0 points</span></div><div class="progress"><div id="sessionbar" style="width:0%"></div></div><h2 id="question"></h2><p class="muted" id="detail"></p><div class="row hidden" id="audioControls" style="align-items:center;gap:10px;margin:8px 0 14px"><button class="btn" id="audioToggle" type="button" aria-pressed="true">🔊 Son activé</button><button class="btn" id="audioTest" type="button">▶ Écouter un La</button><button class="btn hidden" id="triadReplay" type="button">▶ Réécouter la triade</button><span id="audioStatus" class="muted" aria-live="polite"></span><span class="muted" style="font-size:12px">Chaque note sonne 🎸 · Les triades jouent du grave vers l’aigu</span></div><div class="answers" id="answers"></div><div class="row" style="justify-content:space-between"><span class="muted">Manche interactif · glisse horizontalement ou utilise ◀ ▶</span><div class="row"><button class="btn" id="minus">−</button><button class="btn" id="plus">+</button><button class="btn" id="scrollleft" aria-label="Défiler à gauche">◀</button><button class="btn" id="scrollright" aria-label="Défiler à droite">▶</button><button class="btn" id="nut">Sillet ←</button></div></div><div class="orientation-note" id="boardRule">Cases grisées = hors de la zone de jeu actuelle · Tourne ton téléphone pour jouer en paysage.</div><div class="board-scroll" id="scroll"><div id="board"></div></div><p class="muted">Mi aigu en haut · Mi grave en bas · repères 3, 5, 7, 9, 12…</p><div id="feedback" class="feedback" role="status" aria-live="polite">À toi de jouer !</div><div class="row" style="margin-top:12px"><button class="btn" id="hint">💡 Indice</button><button class="btn primary" id="next" disabled>Défi suivant →</button><button class="btn" id="back">← Leçon</button></div></section>
+<div class="celebrate hidden" id="celebrate" role="dialog" aria-modal="true" aria-labelledby="winTitle"><div id="confettiLayer" style="position:absolute;inset:0;overflow:hidden;pointer-events:none"></div><div class="celebrate-card"><div class="celebrate-star" id="winIcon">🏆</div><div id="guitarSolo" class="solo-scene hidden" aria-label="Personnage jouant un solo de guitare"><div class="solo-notes">♫ ♪ ♫</div><div class="solo-rocker">🧑‍🎤<span class="solo-guitar">🎸</span></div><div class="solo-stage">✦ ✧ ✦</div></div><h2 id="winTitle">Étape validée !</h2><p id="winScore"></p><p class="muted" id="winNext"></p><button class="btn primary" id="winContinue">Continuer →</button></div></div><section class="card"><div class="row" style="justify-content:space-between"><strong>📊 Ma progression</strong><button class="btn" id="toggleStats">Afficher</button></div><div id="statsBox" class="hidden"></div></section><footer>Guizmanche V4.6 · Parcours sauvegardé sur cet appareil</footer></main>
+<script>
+(()=>{'use strict';const $=id=>document.getElementById(id),names=['Do','Do♯','Ré','Ré♯','Mi','Fa','Fa♯','Sol','Sol♯','La','La♯','Si'],open=[64,59,55,50,45,40],strings=['Mi aigu','Si','Sol','Ré','La','Mi grave'],short=['e','B','G','D','A','E'],notes=[0,2,4,5,7,9,11];
+const levels=[
+{title:'Les cordes à vide',description:'Reconnais les six cordes',type:'open',max:0,lesson:'Une guitare standard possède six cordes. De la plus fine à la plus épaisse : <b>Mi – Si – Sol – Ré – La – Mi</b>. Le Mi aigu est en haut du manche affiché. Commence par reconnaître les cordes à vide.'},
+{title:'Notes naturelles',description:'10 défis · sans altérations',type:'find',max:12,group:2,allowed:[0,2,4,5,7,9,11],lesson:'<b>Manche 1/3 — 10 questions.</b> Retrouve Do, Ré, Mi, Fa, Sol, La et Si. Une frette vaut un demi-ton ; Mi–Fa et Si–Do sont voisins. Ici, aucun dièse ni bémol.'},
+{title:'Dièses et bémols',description:'10 défis · notes altérées',type:'find',max:12,group:2,allowed:[1,3,6,8,10],lesson:'<b>Manche 2/3 — 10 questions.</b> Entre deux notes naturelles, il peut y avoir une note altérée : Do♯ = Ré♭, Ré♯ = Mi♭, Fa♯ = Sol♭, Sol♯ = La♭, La♯ = Si♭. Ce sont deux noms pour la même case (enharmonie).'},
+{title:'Toutes les notes',description:'10 défis · notes mélangées',type:'find',max:12,group:2,allowed:[0,1,2,3,4,5,6,7,8,9,10,11],lesson:'<b>Manche 3/3 — 10 questions.</b> Toutes les notes sont maintenant mélangées : naturelles, dièses et bémols. Repère la corde à vide, puis compte les demi-tons. Tu peux rejouer chacun des trois manches à volonté.'},
+{title:'Reconnaître les notes',description:'Six cordes · cases 0–12',type:'name',max:12,lesson:'Tu sais maintenant compter les demi-tons. Un point apparaît sur le manche : retrouve mentalement la note. N’oublie pas les dièses entre les notes naturelles, sauf entre Mi–Fa et Si–Do.'},
+{title:'Le manche entier',description:'Cherche une note · 22 cases',type:'all',max:22,lesson:'Une même note apparaît à plusieurs endroits du manche. Retrouve-la sur <b>n’importe quelle corde</b>, jusqu’à la case 22. Le repère de la 12e case correspond à une octave au-dessus de la corde à vide.'},
+{title:'Comprendre les octaves',description:'Retrouve 3 fois la même note',type:'octave',max:12,lesson:'Une <b>octave</b> est la même note, plus aiguë ou plus grave, séparée de <b>12 demi-tons</b>. Dans ce jeu, retrouve <b>3 autres positions de la même note</b> sur le manche. Chaque position doit être sur une autre corde, et chaque note jouée est audible. Exemple : le Mi de la corde grave à vide se retrouve sur cette même corde à la 12e case. Mais Guizmanche va surtout te demander de retrouver cette octave <b>sur une autre corde</b>. Cherche les motifs, sans apprendre les cases par cœur.'},
+{title:'Trouver la tierce majeure',description:'Tierces majeures · 10 questions',type:'majorThird',max:12,lesson:''},
+{title:'Trouver la tierce mineure',description:'Tierces mineures · 10 questions',type:'minorThird',max:12,lesson:''},
+{title:'Trouver la quinte juste',description:'Quintes justes · 10 questions',type:'fifth',max:22,lesson:''},
+{title:'Construire une triade majeure',description:'10 défis · priorité aux 4 cordes aiguës',type:'triadMajor',max:22,lesson:'Une <b>triade majeure</b> rassemble trois notes : la <b>fondamentale</b>, sa <b>tierce majeure (+4 demi-tons)</b> et sa <b>quinte juste (+7 demi-tons)</b>. Sur 10 questions, deux fondamentales sont sur les cordes graves, puis huit sur Ré, Sol, Si et Mi aigu. Place la tierce puis la quinte sur deux autres cordes. La quinte peut être plus grave : les renversements sont acceptés. Fais glisser les deux pastilles sur le manche.'},
+{title:'Construire une triade mineure',description:'Cordes graves · fondamentale, tierce mineure, quinte',type:'triadMinor',max:22,lesson:'Une <b>triade mineure</b> rassemble la <b>fondamentale</b>, sa <b>tierce mineure (+3 demi-tons)</b> et sa <b>quinte juste (+7 demi-tons)</b>. Sur 10 questions, deux fondamentales sont sur les cordes graves, puis huit sur Ré, Sol, Si et Mi aigu. Fais glisser la tierce et la quinte sur deux autres cordes pour construire ton accord, y compris en renversement.'}
+];
+// Une carte complète du manche, construite comme le modèle fourni par le joueur.
+const miRoute=[[5,0],[3,2],[1,5],[4,7],[2,9],[0,12]];
+const routeNames=['Mi grave','Ré','Si','La','Sol','Mi aigu'];
+const routeHints=['⬆️ 2 cordes · ➡️ 2 cases','⬆️ 2 cordes · ➡️ 3 cases','⬇️ 3 cordes · ➡️ 2 cases','⬆️ 2 cordes · ➡️ 2 cases','⬆️ 2 cordes · ➡️ 3 cases'];
+function fullMiDiagram(){
+ const left=77,step=47,top=84,gap=43,right=left+12*step;
+ const x=f=>left+f*step,y=i=>top+i*gap;
+ let svg=`<div class="octave-demo full-map"><strong>TOUS LES MI · CASES 0 À 12</strong><div class="map-scroll"><svg viewBox="0 0 710 392" role="img" aria-label="Manche complet de six cordes, de la case zéro à douze, avec tous les Mi reliés dans l’ordre des cases">`;
+ svg+=`<rect x="${left-9}" y="${top-14}" width="${right-left+20}" height="${gap*5+28}" rx="8" fill="#e7d4b5"/>`;
+ for(let f=0;f<=12;f++){
+  if(f>0)svg+=`<line x1="${x(f)-step/2}" y1="${top-14}" x2="${x(f)-step/2}" y2="${top+gap*5+14}" stroke="#7c6959" stroke-width="2"/>`;
+  svg+=`<text x="${x(f)}" y="${top+gap*5+39}" font-size="14" text-anchor="middle" fill="#e9f3f5">${f}</text>`;
+ }
+ for(const f of [3,5,7,9])svg+=`<circle cx="${x(f)}" cy="${top+gap*2.5}" r="8" fill="#8e8478" opacity=".5"/>`;
+ for(const offset of [1.7,3.3])svg+=`<circle cx="${x(12)}" cy="${top+gap*offset}" r="6" fill="#8e8478" opacity=".5"/>`;
+ const labels=['Mi aigu','Si','Sol','Ré','La','Mi grave'];
+ for(let i=0;i<6;i++){
+  svg+=`<line x1="${left-9}" y1="${y(i)}" x2="${right+11}" y2="${y(i)}" stroke="#413c39" stroke-width="${1.6+i*.6}"/>`;
+  svg+=`<text x="${left-16}" y="${y(i)+5}" font-size="13" fill="#f3f7f9" text-anchor="end">${labels[i]}</text>`;
+ }
+ svg+=`<line x1="${left-9}" y1="${top-14}" x2="${left-9}" y2="${top+gap*5+14}" stroke="#fff" stroke-width="6"/>`;
+ // Six positions reliées dans le sens de l'avancement sur le manche.
+ const pts=miRoute.map(([string,fret])=>`${x(fret)},${y(string)}`).join(' ');
+ svg+=`<polyline points="${pts}" fill="none" stroke="#ab268f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+ // Toutes les autres positions de Mi, y compris les cordes de Mi à vide et à la 12e.
+ const extras=[[0,0],[5,12]];
+ for(const [string,fret] of extras){svg+=`<circle cx="${x(fret)}" cy="${y(string)}" r="16" fill="#ae28a0" stroke="#fff" stroke-width="2"/><text x="${x(fret)}" y="${y(string)+5}" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Mi</text>`}
+ for(let i=0;i<miRoute.length;i++){
+  const [string,fret]=miRoute[i];
+  svg+=`<circle cx="${x(fret)}" cy="${y(string)}" r="17" fill="#ae28a0" stroke="#fff" stroke-width="2"/><text x="${x(fret)}" y="${y(string)+5}" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Mi</text>`;
+  svg+=`<circle cx="${x(fret)+15}" cy="${y(string)-17}" r="9" fill="#17374b" stroke="#fff" stroke-width="1"/><text x="${x(fret)+15}" y="${y(string)-13}" text-anchor="middle" font-size="11" fill="white">${i+1}</text>`;
+ }
+ svg+=`<text x="${left}" y="33" font-size="15" fill="#f3f7f9">Départ : Mi grave à vide</text><text x="${right}" y="33" text-anchor="end" font-size="15" fill="#f3f7f9">Arrivée : case 12</text>`;
+ svg+='</svg></div><p class="muted">Fais glisser le schéma horizontalement sur téléphone. Les numéros 1 à 6 montrent l’ordre du trajet. Les deux autres pastilles Mi sont aussi des Mi, sur les cordes extrêmes.</p></div>';
+ return svg;
+}
+function miRouteLesson(){
+ let html='<h3>🧭 Retrouver tous les Mi, de 0 à 12</h3><p>Sur ce <b>seul schéma</b>, chaque pastille violette est un <b>Mi</b>. Suis le trait et les numéros <b>1 → 6</b> : tu avances toujours vers les cases plus hautes. Le son, lui, peut monter ou descendre.</p>'+fullMiDiagram();
+ html+='<p><b>Lis le trajet :</b> Mi grave 0 → Ré 2 → Si 5 → La 7 → Sol 9 → Mi aigu 12.</p><div class="route-steps">';
+ for(let i=0;i<routeHints.length;i++)html+='<p><b>'+(i+1)+' → '+(i+2)+' :</b> '+routeNames[i]+' '+miRoute[i][1]+' → '+routeNames[i+1]+' '+miRoute[i+1][1]+' · '+routeHints[i]+'</p>';
+ html+='</div><p><b>Pourquoi s’arrêter à 12 ?</b> À la 12e case, le manche recommence les mêmes noms de notes, une octave plus haut. Quand tu sauras retrouver les Mi, tu pourras refaire cette carte avec Fa, Sol, La… et repérer les fondamentales de tes futures triades.</p>';
+ return html;
+}
+levels[6].lesson+='<p><b>Une octave</b> = même nom de note, 12 demi-tons plus haut ou plus bas. Sur le dessin ci-dessous, les pastilles indiquent tous les Mi de la première octave du manche ; le trait montre une façon de les relier, sans confondre progression sur les cases et hauteur du son.</p>'+miRouteLesson();
+function thirdDiagram(minor=false){
+ const left=77,step=47,top=84,gap=43,right=left+12*step;
+ const x=f=>left+f*step,y=i=>top+i*gap;
+ let svg=`<div class="octave-demo full-map"><strong>LES MI ET LEURS TIERCES ${minor?"MINEURES":"MAJEURES"} · CASES 0 À 12</strong><div class="map-scroll"><svg viewBox="0 0 710 392" role="img" aria-label="Six cordes, Mi en violet et ${minor?"Sol":"Sol dièse"} en vert, sa tierce ${minor?"mineure":"majeure"}">`;
+ svg+=`<rect x="${left-9}" y="${top-14}" width="${right-left+20}" height="${gap*5+28}" rx="8" fill="#e7d4b5"/>`;
+ for(let f=0;f<=12;f++){if(f>0)svg+=`<line x1="${x(f)-step/2}" y1="${top-14}" x2="${x(f)-step/2}" y2="${top+gap*5+14}" stroke="#7c6959" stroke-width="2"/>`;svg+=`<text x="${x(f)}" y="${top+gap*5+39}" font-size="14" text-anchor="middle" fill="#e9f3f5">${f}</text>`}
+ for(let i=0;i<6;i++){svg+=`<line x1="${left-9}" y1="${y(i)}" x2="${right+11}" y2="${y(i)}" stroke="#413c39" stroke-width="${1.6+i*.6}"/><text x="${left-16}" y="${y(i)+5}" font-size="13" fill="#f3f7f9" text-anchor="end">${strings[i]}</text>`}
+ svg+=`<line x1="${left-9}" y1="${top-14}" x2="${left-9}" y2="${top+gap*5+14}" stroke="#fff" stroke-width="6"/>`;
+ for(let i=0;i<6;i++)for(let f=0;f<=12;f++){
+  let note=(open[i]+f)%12, target=minor?7:8, label=note===4?'Mi':note===target?(minor?'Sol':'Sol♯'):null;
+  if(!label)continue;
+  svg+=`<circle cx="${x(f)}" cy="${y(i)}" r="16" fill="${note===4?'#a72c9c':'#138c67'}" stroke="white" stroke-width="2"/><text x="${x(f)}" y="${y(i)+5}" text-anchor="middle" font-size="12" font-weight="bold" fill="white">${label}</text>`;
+ }
+ svg+=`<text x="${left}" y="34" font-size="15" fill="#f3f7f9">🟣 Mi = fondamentale</text><text x="${right}" y="34" text-anchor="end" font-size="15" fill="#f3f7f9">🟢 ${minor?"Sol = tierce mineure":"Sol♯ = tierce majeure"}</text>`;
+ return svg+'</svg></div><p class="muted">Fais glisser le schéma. Les Mi violets sont les fondamentales ; les ${minor?"Sol":"Sol♯"} verts sont leurs tierces ${minor?"mineures":"majeures"}. Observe les positions, puis retrouve-les dans le jeu.</p></div>';
+}
+levels[7].lesson='<p>Une <b>tierce majeure</b> est une note située <b>4 demi-tons plus haut</b> qu’une autre note appelée la <b>fondamentale</b>. Elle donne sa couleur à un accord majeur.</p><p>Exemple : <b>Mi → Sol♯</b>. Sur une même corde, tu avances de quatre cases. Mais sur le manche, tu peux retrouver la tierce sur plusieurs cordes.</p>'+thirdDiagram()+'<p>Dans le jeu, le point violet montre la fondamentale. Trouve sa tierce majeure sur le manche. <b>10 questions</b> : observe, réfléchis, puis joue !</p>';
+
+levels[8].lesson='<p>Une <b>tierce mineure</b> est une note située <b>3 demi-tons au-dessus</b> de la fondamentale. Exemple : <b>Mi → Sol</b>. Elle donne sa couleur à un accord mineur.</p>'+thirdDiagram(true)+'<p>Dans le jeu, le point violet montre la fondamentale. Retrouve sa tierce mineure sur n’importe quelle corde entre 0 et 12. <b>10 questions</b>.</p>';
+
+
+function fifthDiagram(){
+ const left=77,step=47,top=84,gap=43,right=left+12*step;
+ const x=f=>left+f*step,y=i=>top+i*gap;
+ let svg=`<div class="octave-demo full-map"><strong>LES MI ET LEURS QUINTES JUSTES · CASES 0 À 12</strong><div class="map-scroll"><svg viewBox="0 0 710 392" role="img" aria-label="Manche de six cordes, fondamentales Mi violettes et quintes justes Si vertes">`;
+ svg+=`<rect x="${left-9}" y="${top-14}" width="${right-left+20}" height="${gap*5+28}" rx="8" fill="#e7d4b5"/>`;
+ for(let f=0;f<=12;f++){if(f>0)svg+=`<line x1="${x(f)-step/2}" y1="${top-14}" x2="${x(f)-step/2}" y2="${top+gap*5+14}" stroke="#7c6959" stroke-width="2"/>`;svg+=`<text x="${x(f)}" y="${top+gap*5+39}" font-size="14" text-anchor="middle" fill="#e9f3f5">${f}</text>`}
+ for(let i=0;i<6;i++){svg+=`<line x1="${left-9}" y1="${y(i)}" x2="${right+11}" y2="${y(i)}" stroke="#413c39" stroke-width="${1.6+i*.6}"/><text x="${left-16}" y="${y(i)+5}" font-size="13" fill="#f3f7f9" text-anchor="end">${strings[i]}</text>`}
+ svg+=`<line x1="${left-9}" y1="${top-14}" x2="${left-9}" y2="${top+gap*5+14}" stroke="#fff" stroke-width="6"/>`;
+ for(let i=0;i<6;i++)for(let f=0;f<=12;f++){
+  const n=(open[i]+f)%12,label=n===4?'Mi':n===11?'Si':null;if(!label)continue;
+  svg+=`<circle cx="${x(f)}" cy="${y(i)}" r="16" fill="${n===4?'#a72c9c':'#138c67'}" stroke="white" stroke-width="2"/><text x="${x(f)}" y="${y(i)+5}" text-anchor="middle" font-size="12" font-weight="bold" fill="white">${label}</text>`;
+ }
+ svg+=`<text x="${left}" y="34" font-size="15" fill="#f3f7f9">Mi = fondamentale</text><text x="${right}" y="34" text-anchor="end" font-size="15" fill="#f3f7f9">Si = quinte juste</text>`;
+ return svg+'</svg></div><p class="muted">Violet : tous les Mi. Vert : tous les Si, leurs quintes justes. Tu peux choisir le Si qui t’arrange pour construire ton accord, quelle que soit la corde ou l’octave.</p></div>';
+}
+levels[9].lesson='<p>La <b>quinte juste</b> est la note située <b>7 demi-tons au-dessus</b> de la fondamentale. Elle fait partie des accords majeurs comme mineurs.</p><p>Exemple : <b>Mi → Si</b>. Sur le manche, le Si existe à plusieurs endroits : choisis celui qui convient le mieux à ton accord, même dans une autre octave.</p>'+fifthDiagram()+'<p>Dans le jeu, la fondamentale reste la même pendant <b>10 questions</b>, mais son emplacement change. Trouve <b>la quinte juste de ton choix</b>, sur n’importe quelle corde du manche.</p>';
+let progress;try{progress=JSON.parse(localStorage.getItem('guizmanche_v13')||localStorage.getItem('guizmanche_v09')||localStorage.getItem('guizmanche_v06'))}catch(e){}progress=progress||{unlocked:0,completed:[],points:0,correct:0,wrong:0,hints:0};progress.unlocked=Math.min(levels.length-1,Math.max(0,progress.unlocked||0));progress.completed=Array.isArray(progress.completed)?progress.completed:[];if(!progress.migrated13){progress.completed=progress.completed.map(i=>i>=2?i+2:i);progress.unlocked=progress.unlocked>=2?progress.unlocked+2:progress.unlocked;progress.migrated13=true;}
+// Son des notes pour tous les modules, avec arpège des triades complètes.
+let soundEnabled=true,audioContext=null,lastSound=null,lastTriadPositions=null;
+// WAV local : compatible avec les lecteurs audio HTML Android, sans WebAudio requis.
+function makeWav(midi){
+ const rate=22050,seconds=1.25,count=Math.floor(rate*seconds),data=new Uint8Array(44+count*2),view=new DataView(data.buffer);
+ const str=(offset,value)=>{for(let i=0;i<value.length;i++)view.setUint8(offset+i,value.charCodeAt(i))};
+ str(0,'RIFF');view.setUint32(4,36+count*2,true);str(8,'WAVE');str(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);view.setUint32(24,rate,true);view.setUint32(28,rate*2,true);view.setUint16(32,2,true);view.setUint16(34,16,true);str(36,'data');view.setUint32(40,count*2,true);
+ const hz=440*Math.pow(2,(midi-69)/12);
+ for(let i=0;i<count;i++){
+  const t=i/rate,env=(1-Math.exp(-t*170))*Math.exp(-t*3.1),v=(Math.sin(2*Math.PI*hz*t)*.7+Math.sin(4*Math.PI*hz*t)*.2+Math.sin(6*Math.PI*hz*t)*.1)*env;
+  view.setInt16(44+i*2,Math.max(-32767,Math.min(32767,Math.round(v*24000))),true);
+ }
+ return new Blob([data],{type:'audio/wav'});
+}
+function playFretNote(s,f){
+ if(!soundEnabled)return;
+ const label=names[pc(s,f)]+' · '+strings[s]+' case '+f;
+ try{
+  if(lastSound){lastSound.audio.pause();URL.revokeObjectURL(lastSound.url);lastSound=null}
+  const url=URL.createObjectURL(makeWav(pitch(s,f))),audio=new Audio(url);
+  audio.volume=1;lastSound={audio,url};
+  const result=audio.play();
+  $('audioStatus').textContent='🔊 '+label;
+  if(result&&result.catch)result.catch(err=>{$('audioStatus').textContent='⚠️ Lecture bloquée : '+err.message});
+  audio.onended=()=>{if(lastSound&&lastSound.audio===audio){URL.revokeObjectURL(url);lastSound=null}};
+ }catch(err){$('audioStatus').textContent='⚠️ '+err.message}
+}
+function playTriadArpeggio(positions){
+ lastTriadPositions=positions.map(p=>[...p]);
+ $('triadReplay').classList.remove('hidden');
+ if(!soundEnabled)return;
+ try{
+  const midi=positions.map(([s,f])=>pitch(s,f)).sort((a,b)=>a-b);
+  const rate=22050,step=.42,tail=1.35,total=Math.ceil(rate*(step*(midi.length-1)+tail));
+  const data=new Uint8Array(44+total*2),v=new DataView(data.buffer);
+  const put=(offset,str)=>{for(let i=0;i<str.length;i++)v.setUint8(offset+i,str.charCodeAt(i))};
+  put(0,'RIFF');v.setUint32(4,36+total*2,true);put(8,'WAVE');put(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);put(36,'data');v.setUint32(40,total*2,true);
+  for(let i=0;i<total;i++){
+   const t=i/rate;let sum=0;
+   for(let n=0;n<midi.length;n++){
+    const dt=t-n*step;if(dt<0)continue;
+    const hz=440*Math.pow(2,(midi[n]-69)/12);
+    const env=(1-Math.exp(-dt*150))*Math.exp(-dt*2.9);
+    sum+=env*(.72*Math.sin(2*Math.PI*hz*dt)+.19*Math.sin(4*Math.PI*hz*dt)+.09*Math.sin(6*Math.PI*hz*dt));
+   }
+   v.setInt16(44+i*2,Math.max(-32767,Math.min(32767,Math.round(sum*12500))),true);
+  }
+  if(lastSound){lastSound.audio.pause();URL.revokeObjectURL(lastSound.url);lastSound=null}
+  const url=URL.createObjectURL(new Blob([data],{type:'audio/wav'})),audio=new Audio(url);
+  lastSound={audio,url};audio.volume=1;
+  const result=audio.play();$('audioStatus').textContent='🎸 Triade du grave vers l’aigu · bouton ▶ pour réécouter';
+  if(result&&result.catch)result.catch(err=>{$('audioStatus').textContent='⚠️ '+err.message});
+  audio.onended=()=>{if(lastSound&&lastSound.audio===audio){URL.revokeObjectURL(url);lastSound=null}};
+ }catch(err){$('audioStatus').textContent='⚠️ '+err.message}
+}
+function updateAudioControls(){
+ const active=true;
+ $('audioControls').classList.toggle('hidden',!active);
+ $('audioToggle').textContent=soundEnabled?'🔊 Son activé':'🔇 Son coupé';
+ $('audioToggle').setAttribute('aria-pressed',String(soundEnabled));
+}
+let openDeck=[],noteDeck=[],sessionRoot=null,thirdAnchorDeck=[];const goal=()=>level<=3||['majorThird','minorThird','fifth','triadMajor','triadMinor'].includes(levels[level].type)?10:5,threshold=()=>level<=3||['majorThird','minorThird','fifth'].includes(levels[level].type)?8:4;let triadPhase=0;let level=Math.min(progress.unlocked,levels.length-1),session=0,firstTry=0,tries=0,hints=0,answered=false,question=null,marks=new Map(),zoom=1,questionId=0;
+const save=()=>{try{localStorage.setItem('guizmanche_v13',JSON.stringify(progress))}catch(e){}},pitch=(s,f)=>open[s]+f,pc=(s,f)=>pitch(s,f)%12,key=(s,f)=>s+':'+f,rand=a=>a[Math.floor(Math.random()*a.length)],fretMax=()=>levels[level].max;
+function drawSteps(){$('steps').innerHTML='';levels.forEach((l,i)=>{let b=document.createElement('button');b.className='step '+(i===level?'current ':'')+(i>progress.unlocked?'locked':'');b.disabled=i>progress.unlocked;b.innerHTML='<strong>'+(progress.completed.includes(i)?'✓ ':i>progress.unlocked?'🔒 ':'')+(i+1)+'. '+l.title+'</strong><small>'+l.description+'</small>';b.onclick=()=>selectLevel(i);$('steps').appendChild(b)});$('overall').textContent=progress.completed.length+' / '+levels.length+' étapes';$('overallbar').style.width=(progress.completed.length/levels.length*100)+'%';drawGame2()}
+function drawGame2(){$('game2Box').classList.toggle('hidden',level<1||level>3);const box=$('game2Buttons');box.innerHTML='';const titles=['1/3 · Naturelles (10)','2/3 · Dièses / bémols (10)','3/3 · Mélangées (10)'];for(let i=1;i<=3;i++){let b=document.createElement('button');b.className='btn '+(level===i?'primary':'');let locked=i>progress.unlocked;b.disabled=locked;b.textContent=(progress.completed.includes(i)?'✓ ':locked?'🔒 ':'▶ ')+titles[i-1];b.onclick=()=>{selectLevel(i);$('lessonBox').scrollIntoView({behavior:'smooth',block:'start'})};box.appendChild(b)}$('game2Status').textContent=progress.unlocked<1?'🔒 Jeu 2 verrouillé : termine les 10 questions du jeu 1 (minimum 8/10).':'Choisis un manche disponible ci-dessus. Les manches validés restent rejouables.'}
+function selectLevel(i){level=i;drawSteps();updateAudioControls();$('lessonBox').classList.remove('hidden');$('playBox').classList.add('hidden');$('tag').textContent='Étape '+(i+1);$('title').textContent=levels[i].title;$('lesson').innerHTML=levels[i].lesson;$('start').textContent=progress.completed.includes(i)?'Rejouer cette étape →':'J’ai compris · Jouer →';$('start').onclick=startSession}
+function status(msg,cls=''){$('feedback').textContent=msg;$('feedback').className='feedback '+cls}
+function makeOctaveCandidates(max){
+ // Ne propose que des fondamentales ayant au moins une octave accessible
+ // accessible sur une autre corde, dans la zone jouable.
+ let a=[];
+ for(let s=0;s<6;s++)for(let f=0;f<=max;f++){
+   let targets=[];
+   for(let t=0;t<6;t++)for(let g=0;g<=max;g++){
+     if(t!==s && Math.abs(pitch(t,g)-pitch(s,f))===12)targets.push([t,g]);
+   }
+   if(targets.length)a.push({s,f,targets});
+ }
+ return a;
+}
+function nextQuestion(){if(session>=goal()){endSession();return}questionId++;tries=0;hints=0;answered=false;marks.clear();$('next').disabled=true;$('next').textContent='Défi suivant →';$('answers').innerHTML='';$('session').textContent=session+' / '+goal()+' défis';$('sessionbar').style.width=(session/goal()*100)+'%';$('levelTag').textContent='Étape '+(level+1);$('points').textContent=progress.points+' points';let t=levels[level].type,max=fretMax();
+if(t==='open'){let s=openDeck.shift();if(s===undefined)s=Math.floor(Math.random()*6);question={s,f:0};$('question').textContent='Trouve la corde '+strings[s];$('detail').textContent='Touche la corde à vide, juste avant la première frette.'}
+else if(t==='fifth'){let root=sessionRoot;if(root===null)root=rand([0,1,2,3,4,5,6,7,8,9,10,11]);if(!thirdAnchorDeck.length){for(let a=0;a<6;a++)for(let b=0;b<=12;b++)if(pc(a,b)===root)thirdAnchorDeck.push([a,b]);thirdAnchorDeck.sort(()=>Math.random()-.5)}let [s,f]=thirdAnchorDeck.pop();question={s,f,target:(root+7)%12};marks.set(key(s,f),'anchor');$('question').textContent='Trouve la quinte juste de '+names[root]+' · '+(session+1)+'/10';$('detail').textContent='Le point violet est la fondamentale. Choisis n’importe quelle position de sa quinte juste (+7 demi-tons), sur toutes les cordes et jusqu’à la case 22.'}
+else if(t==='majorThird'||t==='minorThird'){let root=sessionRoot;if(root===null)root=rand([0,1,2,3,4,5,6,7,8,9,10,11]);if(!thirdAnchorDeck.length){for(let a=0;a<6;a++)for(let b=0;b<=max;b++)if(pc(a,b)===root)thirdAnchorDeck.push([a,b]);thirdAnchorDeck.sort(()=>Math.random()-.5)}let [s,f]=thirdAnchorDeck.pop();question={s,f,target:(root+(t==='minorThird'?3:4))%12};marks.set(key(s,f),'anchor');$('question').textContent='Trouve la tierce '+(t==='minorThird'?'mineure':'majeure')+' de '+names[root]+' · '+(session+1)+'/10';$('detail').textContent='Le point violet est la fondamentale. Cherche la note à +'+(t==='minorThird'?3:4)+' demi-tons, sur n’importe quelle corde (cases 0–12).'}
+else if(t==='find'){let target=noteDeck.shift();if(target===undefined)target=rand(levels[level].allowed);let positions=[];for(let s=0;s<6;s++)for(let f=0;f<=max;f++)if(pc(s,f)===target)positions.push({s,f});let pos=rand(positions),s=pos.s;question={s,target};let label=names[target];if(level===2||level===3){if([1,3,6,8,10].includes(target)&&Math.random()<.5){label=({1:'Ré♭',3:'Mi♭',6:'Sol♭',8:'La♭',10:'Si♭'})[target]}}$('question').textContent='Trouve '+label+' sur le manche';$('detail').textContent='Toutes les cordes sont acceptées : touche n’importe quelle position de cette note dans les cases non grisées.'}
+else if(t==='name'){let s=Math.floor(Math.random()*6),f=Math.floor(Math.random()*(max+1));question={s,f};marks.set(key(s,f),'anchor');$('question').textContent='Quelle est cette note ?';$('detail').textContent='Identifie le point violet. Tu as deux essais avant les indices.';let choices=[pc(s,f)];while(choices.length<4){let n=Math.floor(Math.random()*12);if(!choices.includes(n))choices.push(n)}choices.sort(()=>Math.random()-.5);choices.forEach(n=>{let b=document.createElement('button');b.textContent=names[n];b.onclick=()=>checkName(n,b);$('answers').appendChild(b)})}
+else if(t==='all'){let s=Math.floor(Math.random()*6),f=Math.floor(Math.random()*(max+1));question={target:pc(s,f)};$('question').textContent='Trouve un '+names[question.target];$('detail').textContent='Toutes les cordes et les 22 cases sont disponibles.'}
+else if(t==='chain'){let f=0,route=[[3,2],[1,5],[4,7],[2,9],[0,12]];question={s:5,f,route,phase:0};marks.set(key(5,f),'anchor');$('question').textContent='La route des Mi : de 0 à 12';$('detail').textContent='1/5 · Trouve la même note sur la corde de Ré, plus loin sur le manche.'}
+else if(t==='triadMajor'||t==='triadMinor'){let stringRoute=[5,4,3,3,2,2,1,1,0,0],s=stringRoute[Math.min(session,9)],f=Math.floor(Math.random()*13);question={s,f,root:pc(s,f),third:(pc(s,f)+(t==='triadMinor'?3:4))%12,fifth:(pc(s,f)+7)%12,placed:{},phase:0};marks.set(key(s,f),'anchor');$('question').textContent='Construis la triade '+(t==='triadMinor'?'mineure':'majeure')+' de '+names[question.root];$('detail').textContent='Fondamentale : '+names[question.root]+' · '+strings[s]+' case '+f+'. Glisse la TIERCE et la QUINTE sur deux autres cordes différentes. Tu peux placer la quinte en dessous de la fondamentale : les renversements sont acceptés.';showTriadTokens()}
+else if(t==='interval'||t==='triad'){let steps=t==='interval'?rand([3,4]):t==='fifth'?7:rand([3,4]);let s=Math.floor(Math.random()*6),f=Math.floor(Math.random()*(max-7+1));question={s,f,steps,phase:0};marks.set(key(s,f),'anchor');$('question').textContent=t==='interval'?'Trouve la tierce '+(steps===3?'mineure':'majeure')+' plus aiguë':t==='fifth'?'Trouve la quinte juste plus aiguë':'Construis la triade '+(steps===3?'mineure':'majeure');$('detail').textContent=t==='interval'?'Depuis le point violet : '+steps+' demi-tons sur la même corde.':t==='fifth'?'Cherche une note située 7 demi-tons au-dessus du point violet, sur une autre corde si tu veux.':'Étape 1/2 : trouve la tierce sur la même corde.'}
+else{question=rand(makeOctaveCandidates(22).filter(q=>q.f<=12));question.found=[];marks.set(key(question.s,question.f),'anchor');$('question').textContent='Voici un '+names[pc(question.s,question.f)]+' : retrouve-le 3 autres fois !';$('detail').textContent='Point violet : '+names[pc(question.s,question.f)]+' · '+strings[question.s]+' · case '+question.f+'. Trouve 3 autres '+names[pc(question.s,question.f)]+' sur 3 cordes différentes (autres que la corde violette), jusqu’à la case 22. Chaque note sonne quand tu la touches. · 0/3 trouvées.'}
+status('À toi de chercher. Aucune réponse n’est affichée.');renderBoard()}
+function finishCorrect(k){answered=true;if(k)marks.set(k,'correct');session++;if(tries===0)firstTry++;progress.correct++;progress.points+=tries===0?20:tries===1?12:7;save();$('next').disabled=false;$('points').textContent=progress.points+' points';$('session').textContent=session+' / '+goal()+' défis';$('sessionbar').style.width=(session/goal()*100)+'%';$('next').textContent=session===goal()?'Voir mon résultat →':'Défi suivant →';status('Bravo ! Bonne réponse. '+(tries===0?'20 points.':'Tu as trouvé en réfléchissant.'),'ok');renderBoard()}
+function fail(k){tries++;progress.wrong++;save();if(k)marks.set(k,'wrong');status(tries<2?'Pas encore. Essaie une seconde fois.':'Tu peux maintenant demander un indice, ou continuer sans aide.','no');renderBoard()}
+function showTriadTokens(){
+ const a=$('answers');a.innerHTML='';
+ for(const [role,label] of [['third','Tierce'],['fifth','Quinte']]){
+  const b=document.createElement('button');b.className='btn triad-token';b.textContent=(question.placed[role]?'✓ ':'↗ ')+label;b.disabled=!!question.placed[role];b.draggable=!b.disabled;b.dataset.role=role;
+  b.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',role);e.dataTransfer.effectAllowed='move'});
+  b.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;e.preventDefault();let ghost=document.createElement('div');ghost.className='triad-ghost';ghost.textContent=label;document.body.appendChild(ghost);let move=x=>{ghost.style.left=x.clientX+'px';ghost.style.top=x.clientY+'px'};move(e);b.setPointerCapture(e.pointerId);
+    const onMove=x=>move(x),onEnd=x=>{b.removeEventListener('pointermove',onMove);b.removeEventListener('pointerup',onEnd);b.removeEventListener('pointercancel',onCancel);ghost.remove();let hit=document.elementFromPoint(x.clientX,x.clientY)?.closest('[data-string]');if(hit)dropTriad(role,+hit.dataset.string,+hit.dataset.fret)};
+    const onCancel=()=>{b.removeEventListener('pointermove',onMove);b.removeEventListener('pointerup',onEnd);b.removeEventListener('pointercancel',onCancel);ghost.remove()};
+    b.addEventListener('pointermove',onMove);b.addEventListener('pointerup',onEnd);b.addEventListener('pointercancel',onCancel);
+  });
+  a.appendChild(b);
+ }
+}
+function dropTriad(role,s,f){
+ if(answered||!question||!['triadMajor','triadMinor'].includes(levels[level].type)||question.placed[role])return;
+ const target=role==='third'?question.third:question.fifth,other=role==='third'?'fifth':'third',prior=question.placed[other];
+ if(s===question.s||f>22||(prior&&prior.s===s)){fail(key(s,f));status('Utilise trois cordes différentes : une pour la fondamentale, une pour la tierce et une pour la quinte.','no');return}
+ if(pc(s,f)!==target){fail(key(s,f));status('Ce n’est pas la '+(role==='third'?'tierce':'quinte')+' de '+names[question.root]+'. Essaie une autre position.','no');return}
+ question.placed[role]={s,f};marks.set(key(s,f),'correct');
+ if(question.placed.third&&question.placed.fifth){playTriadArpeggio([[question.s,question.f],[question.placed.third.s,question.placed.third.f],[question.placed.fifth.s,question.placed.fifth.f]]);finishCorrect(null);status('Triade '+(levels[level].type==='triadMajor'?'majeure':'mineure')+' de '+names[question.root]+' construite !','ok')}
+ else{status('Bonne '+(role==='third'?'tierce':'quinte')+' ! Place maintenant '+(role==='third'?'la quinte':'la tierce')+'.','ok');showTriadTokens();renderBoard()}
+}
+function checkTap(s,f){if(!answered&&f<=22&&!['triadMajor','triadMinor'].includes(levels[level].type))playFretNote(s,f);if(['triadMajor','triadMinor'].includes(levels[level].type)){status('Fais glisser une pastille « Tierce » ou « Quinte » depuis le haut vers une case du manche.');return}if(answered||levels[level].type==='name'||(levels[level].type!=='octave'&&f>fretMax()))return;let t=levels[level].type,ok;if(t==='chain'){let [ts,tf]=question.route[question.phase];if(s===ts&&f===tf){marks.set(key(s,f),'correct');question.phase++;if(question.phase===5){finishCorrect(null);return}let prompts=['','Retrouve la note sur la corde de Si.','Retrouve la note sur la corde de La : le son redescend, mais les cases avancent.','Retrouve la note sur la corde de Sol.','Retrouve la note sur la corde de Mi aigu.'];$('detail').textContent=(question.phase+1)+'/5 · '+prompts[question.phase];status('Bonne connexion ! Continue ton parcours.','ok');renderBoard();return}fail(key(s,f));return}if(t==='triadMajor'||t==='triadMinor')return; if(t==='majorThird'||t==='minorThird'||t==='fifth')ok=pc(s,f)===question.target;else if(t==='interval')ok=s===question.s&&f===question.f+question.steps;else if(t==='triad'){ok=s===question.s&&f===question.f+(question.phase===0?question.steps:7);if(ok&&question.phase===0){question.phase=1;marks.set(key(s,f),'correct');$('detail').textContent='Bien ! Étape 2/2 : trouve maintenant la quinte (+7 demi-tons depuis la fondamentale).';status('Tierce trouvée. Il reste la quinte !','ok');renderBoard();return}}else ok=t==='open'?s===question.s&&f===0:t==='find'?pc(s,f)===question.target:t==='all'?pc(s,f)===question.target:question.targets.some(([a,b])=>a===s&&b===f);if((t==='octave'||t==='interval'||t==='fifth'||t==='triad')&&s===question.s&&f===question.f)return;if(t==='octave'){
+ const target=pc(question.s,question.f);
+ if(s===question.s&&f===question.f){status('Le point violet est ton exemple. Trouve 3 autres positions.');return}
+ if(question.found.some(([ss,ff])=>ss===s&&ff===f)){status('Cette position est déjà trouvée. Cherche ailleurs !');return}
+ if(question.found.some(([ss])=>ss===s)||s===question.s){status('Cherche sur une autre corde : une corde différente pour chaque réponse.');return}
+ if(pc(s,f)===target){
+  question.found.push([s,f]);marks.set(key(s,f),'correct');
+  if(question.found.length===3){finishCorrect(null);status('Bravo ! Tu as retrouvé 3 autres '+names[target]+' sur le manche.','ok')}
+  else{$('detail').textContent='Excellent ! '+question.found.length+'/3 trouvées · Encore '+(3-question.found.length)+' '+names[target]+' sur '+(3-question.found.length)+' autre(s) corde(s).';status('Bonne note ! '+question.found.length+'/3.','ok');renderBoard()}
+ }else fail(key(s,f));
+ return;
+}
+if(ok){finishCorrect(key(s,f))}else fail(key(s,f))}
+function checkName(n,b){if(answered||b.disabled)return;b.disabled=true;if(n===pc(question.s,question.f)){b.style.background='#237b57';finishCorrect(null)}else{b.style.background='#984b55';fail(null)}}
+function hint(){if(answered)return;if(tries<2){status('Deux essais personnels avant les indices. Tu peux le faire !');return}hints++;progress.hints++;save();let t=levels[level].type;if(t==='open')status('Indice : les cordes sont Mi, Si, Sol, Ré, La, Mi, de la plus fine à la plus épaisse.');else if(t==='find')status('Indice : pars d’une corde à vide que tu connais, puis compte les demi-tons. Toute position de la bonne note est valable.');else if(t==='name')status('Indice : '+strings[question.s]+' à vide = '+names[pc(question.s,0)]+'. Avance de '+question.f+' demi-tons.');else if(t==='all')status('Indice : utilise la 12e case comme repère d’octave et repars des cordes à vide.');else if(t==='majorThird'||t==='minorThird')status('Indice : compte '+(t==='minorThird'?3:4)+' demi-tons depuis '+names[pc(question.s,question.f)]+' ; sa tierce '+(t==='minorThird'?'mineure':'majeure')+' est '+names[question.target]+'. Tu peux la jouer sur n’importe quelle corde.');else if(t==='interval')status('Indice : reste sur la même corde et avance de '+question.steps+' cases.');else if(t==='fifth')status('Indice : la quinte juste de '+names[pc(question.s,question.f)]+' est '+names[question.target]+'. Cherche cette note où tu veux sur le manche.');else if(t==='triadMajor'||t==='triadMinor')status('Indice : fondamentale '+names[question.root]+', tierce '+names[question.third]+', quinte '+names[question.fifth]+'. Choisis deux autres cordes différentes. Les renversements sont acceptés.');else if(t==='triad')status('Indice : '+(question.phase===0?'la tierce est à +'+question.steps:'la quinte est à +7')+' demi-tons depuis le point violet.');else if(t==='chain')status('Indice : '+['Mi grave → Ré : +2 cases, 2 cordes vers les aiguës.','Ré → Si : +3 cases, 2 cordes vers les aiguës.','Si → La : +2 cases, 3 cordes vers les graves.','La → Sol : +2 cases, 2 cordes vers les aiguës.','Sol → Mi aigu : +3 cases, 2 cordes vers les aiguës.'][question.phase]);else status('Indice : cherche '+names[pc(question.s,question.f)]+' sur une autre corde. Une octave conserve le même nom de note. Il faut 3 cordes différentes.');}
+function celebrateWin(){
+ const layer=$('confettiLayer');layer.innerHTML='';const colors=['#7ceab5','#ffe58d','#e89cff','#84c8ff','#fff'];
+ for(let i=0;i<(level===levels.length-1?85:38);i++){let bit=document.createElement('i');bit.className='confetti';bit.style.left=(i*37%100)+'%';bit.style.background=colors[i%colors.length];bit.style.animationDelay=(-(i*17%27)/10)+'s';bit.style.animationDuration=(2+(i%5)*.24)+'s';layer.appendChild(bit)}
+ const finalTriads=level===levels.length-1;
+ $('guitarSolo').classList.toggle('hidden',!finalTriads);
+ $('winIcon').classList.toggle('hidden',finalTriads);
+ $('winTitle').textContent=finalTriads?'🎸 BRAVO LA GUIZE !':'🎉 BRAVO LA GUIZ!';
+ $('winScore').textContent=finalTriads?'Tu sais construire des triades majeures et mineures !': 'BRAVO LA GUIZ! · '+firstTry+' bonnes réponses du premier coup sur '+goal()+' !';
+ $('winNext').textContent=level<levels.length-1?'Étape '+(level+2)+' débloquée : '+levels[level+1].title+'.':'Mission accomplie ! À toi les renversements et les enchaînements d’accords !';
+ $('winContinue').textContent=level<levels.length-1?'Découvrir l’étape '+(level+2)+' →':'Rejouer →';
+ $('celebrate').classList.remove('hidden');$('winContinue').focus();
+ $('winContinue').onclick=()=>{$('celebrate').classList.add('hidden');layer.innerHTML='';if(level<levels.length-1){selectLevel(level+1);$('lessonBox').scrollIntoView({behavior:'smooth',block:'start'})}else startSession()};
+}
+function endSession(){let success=firstTry>=threshold();$('playBox').classList.add('hidden');$('lessonBox').classList.remove('hidden');$('tag').textContent=success?'Étape validée ✓':'Encore un entraînement';$('title').textContent=success?'BRAVO LA GUIZ!':'Tu progresses !';if(success){if(!progress.completed.includes(level))progress.completed.push(level);if(level===progress.unlocked&&level<levels.length-1)progress.unlocked++;save();$('lesson').innerHTML='<b>'+firstTry+'/'+goal()+' défis réussis du premier coup.</b> Tu as validé cette étape. '+(level<levels.length-1?'La suivante est maintenant débloquée.':'Tu as terminé le parcours !');$('start').textContent=level<levels.length-1?'Passer à la suite →':'Rejouer →';$('start').onclick=()=>{if(level<levels.length-1)selectLevel(level+1);else startSession()}}else{$('lesson').innerHTML='<b>'+firstTry+'/'+goal()+' défis réussis du premier coup.</b> Pour débloquer la suite, il en faut '+threshold()+'. Recommence à ton rythme, sans précipitation.';$('start').textContent='Réessayer →';$('start').onclick=startSession}drawSteps();showStats();if(success)celebrateWin()}
+function startSession(){session=0;firstTry=0;openDeck=[0,1,2,3,4,5].sort(()=>Math.random()-.5).concat([0,1,2,3,4,5].sort(()=>Math.random()-.5).slice(0,4));if(['majorThird','minorThird','fifth'].includes(levels[level].type)){sessionRoot=Math.floor(Math.random()*12);thirdAnchorDeck=[]}else{sessionRoot=null;thirdAnchorDeck=[]}if(levels[level].allowed){let a=levels[level].allowed;noteDeck=a.slice().sort(()=>Math.random()-.5);while(noteDeck.length<10)noteDeck.push(rand(a));noteDeck.sort(()=>Math.random()-.5)}$('lessonBox').classList.add('hidden');$('playBox').classList.remove('hidden');$('start').onclick=startSession;nextQuestion()}
+function renderBoard(){const max=fretMax(),left=83,openW=58,base=91,edges=[left,left+openW],top=48,gap=43;for(let f=1;f<=22;f++)edges.push(edges[edges.length-1]+base*Math.pow(2,-(f-1)/12));let end=edges[23]+12,width=end+15;
+let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width*zoom}" height="${315*zoom}" viewBox="0 0 ${width} 315" aria-label="Manche de guitare, 6 cordes et 22 frettes"><defs><linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9b6b42"/><stop offset=".27" stop-color="#644027"/><stop offset=".5" stop-color="#94603a"/><stop offset=".8" stop-color="#53341f"/><stop offset="1" stop-color="#a7764b"/></linearGradient><linearGradient id="metal"><stop stop-color="#5b6265"/><stop offset=".3" stop-color="#f0f2ed"/><stop offset=".7" stop-color="#90999c"/><stop offset="1" stop-color="#d3d5d2"/></linearGradient></defs><rect x="${left}" y="24" width="${end-left}" height="263" rx="8" fill="url(#wood)" stroke="#39261a" stroke-width="7"/>`;
+for(let j=0;j<33;j++){let y=27+j*8;svg+=`<path d="M${left+3} ${y} Q${(left+end)/2} ${y+Math.sin(j)*4} ${end-2} ${y+Math.cos(j)*3}" stroke="${j%3?'#dbb183':'#21140c'}" stroke-opacity=".11" fill="none"/>`}
+for(let f=1;f<=22;f++)svg+=`<rect x="${edges[f+1]-2}" y="25" width="4" height="261" fill="url(#metal)" rx="1"/>`;svg+=`<rect x="${edges[1]-4}" y="24" width="8" height="263" rx="2" fill="#e8dcc5"/>`;
+for(let f of [3,5,7,9,12,15,17,19,21]){let x=(edges[f]+edges[f+1])/2;for(let y of f===12?[112.5,198.5]:[155.5])svg+=`<circle cx="${x}" cy="${y}" r="10" fill="#f1e3c7" opacity=".58"/>`}
+if(max<22&&levels[level].type!=='octave'){let shadeX=edges[max+1]+2;svg+=`<rect x="${shadeX}" y="25" width="${Math.max(0,end-shadeX)}" height="261" fill="#aeb8c1" opacity=".37" pointer-events="none"/>`;}
+for(let s=0;s<6;s++){let y=top+s*gap;svg+=`<text x="47" y="${y+5}" font-size="17" fill="#e6edf2" text-anchor="middle" font-weight="bold">${short[s]}</text><line x1="${left}" y1="${y+1}" x2="${end}" y2="${y+1}" stroke="#241d16" stroke-width="${2+s*.65}"/><line x1="${left}" y1="${y}" x2="${end}" y2="${y}" stroke="#c9d0ce" stroke-width="${1+s*.35}"/>`}
+for(let f=0;f<=22;f++){let x=(edges[f]+edges[f+1])/2;svg+=`<text x="${x}" y="298" font-size="12" text-anchor="middle" fill="${f<=max||levels[level].type==='octave'?'#e1e9ed':'#7a8791'}">${f}</text>`}
+for(let s=0;s<6;s++)for(let f=0;f<=22;f++){let x=(edges[f]+edges[f+1])/2,y=top+s*gap,k=key(s,f),mark=marks.get(k),inactive=f>max;svg+=`<rect data-string="${s}" data-fret="${f}" x="${edges[f]+2}" y="${y-19}" width="${Math.max(12,edges[f+1]-edges[f]-4)}" height="38" fill="transparent"/>`;if(mark){let c=mark==='anchor'?'#aaa4ff':mark==='correct'?'#75e5af':'#f0858c';svg+=`<circle cx="${x}" cy="${y}" r="14" fill="${c}" pointer-events="none"/><text x="${x}" y="${y+5}" font-size="${mark==='anchor'&&levels[level].type==='octave'?10:13}" text-anchor="middle" font-weight="bold" fill="#152333" pointer-events="none">${mark==='anchor'?(levels[level].type==='octave'?names[pc(s,f)].replace('♯','#'):'?'):mark==='correct'?'✓':'×'}</text>`}}
+svg+='</svg>';$('board').innerHTML=svg;const el=$('board').querySelector('svg');
+// Touch: drag the fretboard explicitly on mobile; a stationary tap selects a note.
+// Keep vertical page scrolling intact by locking only on horizontal movement.
+let touch=null, ignoreClickUntil=0;
+const sc=$('scroll');
+el.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;let t=e.touches[0];touch={x:t.clientX,y:t.clientY,left:sc.scrollLeft,moved:false,horizontal:false,target:e.target.closest('[data-string]')};},{passive:true});
+el.addEventListener('touchmove',e=>{if(!touch||e.touches.length!==1)return;let t=e.touches[0],dx=t.clientX-touch.x,dy=t.clientY-touch.y;if(Math.abs(dx)>7||Math.abs(dy)>7)touch.moved=true;if(!touch.horizontal&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)*1.15)touch.horizontal=true;if(touch.horizontal){e.preventDefault();sc.scrollLeft=touch.left-dx;}},{passive:false});
+el.addEventListener('touchend',e=>{if(!touch)return;let t=e.changedTouches[0];if(touch.horizontal){ignoreClickUntil=Date.now()+500;e.preventDefault()}else if(!touch.moved&&touch.target){let a=touch.target;ignoreClickUntil=Date.now()+500;e.preventDefault();checkTap(+a.dataset.string,+a.dataset.fret)}touch=null;},{passive:false});
+el.addEventListener('touchcancel',()=>touch=null,{passive:true});
+el.addEventListener('dragover',e=>{if(['triadMajor','triadMinor'].includes(levels[level].type))e.preventDefault()});el.addEventListener('drop',e=>{e.preventDefault();let hit=e.target.closest('[data-string]');if(hit)dropTriad(e.dataTransfer.getData('text/plain'),+hit.dataset.string,+hit.dataset.fret)});
+el.addEventListener('click',e=>{if(Date.now()<ignoreClickUntil)return;let a=e.target.closest('[data-string]');if(a)checkTap(+a.dataset.string,+a.dataset.fret)});
+}
+function showStats(){let t=progress.correct+progress.wrong,p=t?Math.round(progress.correct/t*100):0;$('statsBox').innerHTML=`<div class="stats"><div class="stat"><strong>${progress.points}</strong><small>Points</small></div><div class="stat"><strong>${p}%</strong><small>Réussite</small></div><div class="stat"><strong>${progress.completed.length}/${levels.length}</strong><small>Étapes validées</small></div></div><p class="muted">${progress.correct} bonnes réponses · ${progress.wrong} erreurs · ${progress.hints} indices demandés.</p><button class="btn" id="resetStats">Réinitialiser la progression</button>`;$('resetStats').onclick=()=>{if(confirm('Effacer toute la progression ?')){localStorage.removeItem('guizmanche_v09');localStorage.removeItem('guizmanche_v06');location.reload()}}}
+$('triadReplay').onclick=()=>{if(lastTriadPositions)playTriadArpeggio(lastTriadPositions)};$('audioToggle').onclick=()=>{soundEnabled=!soundEnabled;updateAudioControls();if(soundEnabled)playFretNote(4,0)};$('audioTest').onclick=()=>{soundEnabled=true;updateAudioControls();$('audioStatus').textContent='Test audio…';playFretNote(4,0)};$('start').onclick=startSession;$('next').onclick=nextQuestion;$('hint').onclick=hint;$('back').onclick=()=>selectLevel(level);$('plus').onclick=()=>{zoom=Math.min(1.65,+(zoom+.15).toFixed(2));renderBoard()};$('minus').onclick=()=>{zoom=Math.max(.7,+(zoom-.15).toFixed(2));renderBoard()};$('nut').onclick=()=>$('scroll').scrollTo({left:0,behavior:'smooth'});$('scrollleft').onclick=()=>$('scroll').scrollBy({left:-260,behavior:'smooth'});$('scrollright').onclick=()=>$('scroll').scrollBy({left:260,behavior:'smooth'});$('toggleStats').onclick=()=>{$('statsBox').classList.toggle('hidden');$('toggleStats').textContent=$('statsBox').classList.contains('hidden')?'Afficher':'Masquer';showStats()};selectLevel(level);startSession();
+})();
+</script></body></html>
